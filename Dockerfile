@@ -2,6 +2,10 @@ FROM alpine:3.7
 
 ENV UNB_VER="1.7.0"
 
+RUN addgroup unbound && \
+        adduser -D -h /opt -G unbound unbound && \
+        echo "unbound:`head /dev/urandom | tr -dc A-Za-z0-9 | head -c 24 | mkpasswd -m sha256`" | chpasswd
+
 RUN apk -U add --virtual deps \
 		make gcc g++ libressl-dev \
 		expat-dev libevent-dev && \
@@ -22,5 +26,7 @@ RUN apk -U add --virtual deps \
 
 COPY unbound.conf /opt/unbound/etc/unbound/
 COPY root.key /opt/unbound/etc/unbound/
+
+RUN chown unbound:unbound -R /opt/*
 
 CMD /opt/unbound/sbin/unbound -dv
