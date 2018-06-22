@@ -20,12 +20,12 @@ RUN apk -U add --virtual deps \
     make install && \
     cd /opt/unbound/etc/unbound/ && \
     rm unbound.conf && \
-    wget https://www.internic.net/domain/named.root -O root.db && \
     rm -rf ~/* && \
     apk del --purge deps
 
 COPY unbound.conf /opt/unbound/etc/unbound/
 COPY root.key /opt/unbound/etc/unbound/
+COPY root.db /opt/unbound/etc/unbound/
 
 RUN chown unbound:unbound -R /opt/*
 
