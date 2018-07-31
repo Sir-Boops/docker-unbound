@@ -1,0 +1,9 @@
+pipeline:
+    docker:
+        image: plugins/docker
+        dockerfile: Dockerfile
+        repo: sirboops/unbound
+        tags: [1.7.3, latest]
+        experimental: true
+        squash: true
+        secrets: [ docker_username, docker_password ]
