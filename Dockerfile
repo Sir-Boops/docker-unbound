@@ -1,6 +1,6 @@
-FROM alpine:3.7
+FROM alpine:3.8
 
-ENV UNB_VER="1.7.3"
+ENV UNB_VER="1.8.0"
 
 RUN addgroup unbound && \
         adduser -D -h /opt -G unbound unbound && \
