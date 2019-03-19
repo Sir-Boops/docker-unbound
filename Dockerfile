@@ -1,15 +1,16 @@
-FROM alpine:3.8
+FROM alpine:3.9
 
-ENV UNB_VER="1.8.1"
+ENV UNB_VER="1.9.1"
 
+# Create Unbound User
 RUN addgroup unbound && \
-        adduser -D -h /opt -G unbound unbound && \
-        echo "unbound:`head /dev/urandom | tr -dc A-Za-z0-9 | head -c 24 | mkpasswd -m sha256`" | chpasswd
+        adduser -D -S -h /opt -G unbound unbound
 
+# Build Unbound
 RUN apk -U add --virtual deps \
         make gcc g++ libressl-dev \
         expat-dev libevent-dev && \
-    apk add libevent && \
+    apk add libevent libressl2.7-libssl && \
     cd ~ && \
     wget https://unbound.net/downloads/unbound-$UNB_VER.tar.gz && \
     tar xf unbound-$UNB_VER.tar.gz && \
@@ -23,10 +24,13 @@ RUN apk -U add --virtual deps \
     rm -rf ~/* && \
     apk del --purge deps
 
+# Copy needed configs and assets
 COPY unbound.conf /opt/unbound/etc/unbound/
 COPY root.key /opt/unbound/etc/unbound/
 COPY root.db /opt/unbound/etc/unbound/
 
+# Set ownership of files
 RUN chown unbound:unbound -R /opt/*
 
+# Run unbound in foreground
 CMD /opt/unbound/sbin/unbound -dv
