@@ -1,6 +1,6 @@
-FROM alpine:3.9
+FROM alpine:3.10
 
-ENV UNB_VER="1.9.1"
+ENV UNB_VER="1.9.6"
 
 # Create Unbound User
 RUN addgroup unbound && \
