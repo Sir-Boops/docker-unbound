@@ -10,7 +10,7 @@ RUN addgroup unbound && \
 RUN apk -U add --virtual deps \
         make gcc g++ libressl-dev \
         expat-dev libevent-dev && \
-    apk add libevent libressl3.1-libssl && \
+    apk add libevent libressl3.4-libssl && \
     cd ~ && \
     wget https://unbound.net/downloads/unbound-$UNB_VER.tar.gz && \
     tar xf unbound-$UNB_VER.tar.gz && \
