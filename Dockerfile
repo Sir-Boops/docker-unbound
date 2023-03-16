@@ -1,6 +1,6 @@
-FROM alpine:3.15.4
+FROM alpine:3.17.2
 
-ENV UNB_VER="1.15.0"
+ENV UNB_VER="1.17.1"
 
 # Create Unbound User
 RUN addgroup unbound && \
@@ -10,7 +10,7 @@ RUN addgroup unbound && \
 RUN apk -U add --virtual deps \
         make gcc g++ libressl-dev \
         expat-dev libevent-dev && \
-    apk add libevent libressl3.4-libssl && \
+    apk add libevent libressl3.6-libssl && \
     cd ~ && \
     wget https://unbound.net/downloads/unbound-$UNB_VER.tar.gz && \
     tar xf unbound-$UNB_VER.tar.gz && \
